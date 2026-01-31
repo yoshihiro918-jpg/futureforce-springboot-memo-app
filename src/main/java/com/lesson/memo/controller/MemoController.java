@@ -36,7 +36,7 @@ public class MemoController {
         model.addAttribute("memos", memos);
         return "memo-list";
     }
-    
+
     @GetMapping("/search")
     public String search(@RequestParam(name = "keyword", required = false) String keyword, Model model) {
         List<Memo> memos;
@@ -52,6 +52,7 @@ public class MemoController {
         return "memo-list"; 
     }
 
+    
     @GetMapping("/new")
     public String showForm(Model model) {
         model.addAttribute("memo", new Memo());
