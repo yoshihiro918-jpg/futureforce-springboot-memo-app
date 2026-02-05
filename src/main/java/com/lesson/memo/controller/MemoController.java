@@ -59,16 +59,12 @@ public class MemoController {
     public String search(@RequestParam(name = "keyword", required = false) String keyword, Model model) {
         List<Memo> memos;
 
-        // キーワードが入力されているかチェック
         if (keyword != null && !keyword.isEmpty()) {
-            // リポジトリのカスタムメソッドを使って検索
             memos = memoRepository.findByTitleContaining(keyword);
         } else {
-            // キーワードが空なら全件表示（一覧ページ）へリダイレクト
             return "redirect:/memo"; 
         }
 
-        // 検索結果と検索ワードを画面に渡す
         model.addAttribute("memos", memos);
         model.addAttribute("keyword", keyword);
         return "memo-list"; 
