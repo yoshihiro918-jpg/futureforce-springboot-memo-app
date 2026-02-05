@@ -60,9 +60,9 @@ public class MemoController {
         List<Memo> memos;
 
         if (keyword != null && !keyword.isEmpty()) {
-            memos = memoRepository.findByTitleContaining(keyword);
+            memos = memoRepository.findByTitleContainingOrContentContaining(keyword, keyword);
         } else {
-            return "redirect:/memo"; 
+        	memos = memoRepository.findAll(); 
         }
 
         model.addAttribute("memos", memos);
