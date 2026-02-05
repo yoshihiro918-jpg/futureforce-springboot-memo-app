@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.lesson.memo.model.Memo;
@@ -53,6 +54,26 @@ public class MemoController {
         memoRepository.save(memo);
         return "redirect:/memo";
     }
+    
+    @GetMapping("/search")
+    public String search(@RequestParam(name = "keyword", required = false) String keyword, Model model) {
+        List<Memo> memos;
+
+        // キーワードが入力されているかチェック
+        if (keyword != null && !keyword.isEmpty()) {
+            // リポジトリのカスタムメソッドを使って検索
+            memos = memoRepository.findByTitleContaining(keyword);
+        } else {
+            // キーワードが空なら全件表示（一覧ページ）へリダイレクト
+            return "redirect:/memo"; 
+        }
+
+        // 検索結果と検索ワードを画面に渡す
+        model.addAttribute("memos", memos);
+        model.addAttribute("keyword", keyword);
+        return "memo-list"; 
+    }
+
 
     @GetMapping("/detail/{id}")
     public String showDetail(@PathVariable Long id, Model model,
