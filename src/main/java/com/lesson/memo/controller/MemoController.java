@@ -50,7 +50,6 @@ public class MemoController {
             return "memo-form";
         }
         
-        
         memo.setCreatedAt(LocalDateTime.now());
         memo.setUpdatedAt(LocalDateTime.now());
         memoRepository.save(memo);
