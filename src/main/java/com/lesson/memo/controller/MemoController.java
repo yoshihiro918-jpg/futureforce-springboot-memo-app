@@ -31,9 +31,17 @@ public class MemoController {
     private MemoRepository memoRepository;
 
     @GetMapping
-    public String list(Model model) {
-        List<Memo> memos = memoRepository.findAllByOrderByPriorityAscIdDesc();
+    public String list(@RequestParam(name = "keyword", required = false) String keyword, Model model) {
+        List<Memo> memos;
+        
+        if (keyword != null && !keyword.isEmpty()) {
+            memos = memoRepository.findByTitleContainingOrContentContainingOrderByPriorityAscIdDesc(keyword, keyword);
+        } else {
+            memos = memoRepository.findAllByOrderByPriorityAscIdDesc();
+        }
+        
         model.addAttribute("memos", memos);
+        model.addAttribute("keyword", keyword);
         return "memo-list";
     }
 
@@ -60,22 +68,6 @@ public class MemoController {
         memoRepository.save(memo);
         return "redirect:/memo";
     }
-    
-    @GetMapping("/search")
-    public String search(@RequestParam(name = "keyword", required = false) String keyword, Model model) {
-        List<Memo> memos;
-
-        if (keyword != null && !keyword.isEmpty()) {
-            memos = memoRepository.findByTitleContainingOrContentContaining(keyword, keyword);
-        } else {
-        	memos = memoRepository.findAll(); 
-        }
-
-        model.addAttribute("memos", memos);
-        model.addAttribute("keyword", keyword);
-        return "memo-list"; 
-    }
-
 
     @GetMapping("/detail/{id}")
     public String showDetail(@PathVariable Long id, Model model,
