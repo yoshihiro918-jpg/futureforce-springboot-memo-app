@@ -14,7 +14,8 @@
 	<div class="container">
 		<div class="header">
 			<h1 class="app-title" th:text="${memo.id} != null ? 'メモ編集' : 'メモ作成'"></h1>
-			<a th:href="${memo.id} != null ? @{|/memo/detail/${memo.id}|}  : @{/memo}" class="btn btn-outline"><i class="ri-arrow-left-line"></i> 戻る</a>
+			<a th:href="${memo.id} != null ? @{|/memo/detail/${memo.id}|}  : @{/memo}" class="btn btn-outline"><i
+					class="ri-arrow-left-line"></i> 戻る</a>
 		</div>
 
 		<div class="note-form-card">
@@ -25,6 +26,26 @@
 					<input type="text" th:field="*{title}">
 					<div th:if="${#fields.hasErrors('title')}" th:errors="*{title}" class="error-message"></div>
 				</div>
+
+				<div class="form-group">
+					<label>優先度</label>
+					<label for="priority-high" class="priority-pill high">
+						<input type="radio" id="priority-high" th:field="*{priority}" value="HIGH"
+							class="priority-radio">
+						高
+					</label>
+					<label for="priority-medium" class="priority-pill medium">
+						<input type="radio" id="priority-medium" th:field="*{priority}" value="MEDIUM"
+							class="priority-radio">
+						中
+					</label>
+					<label for="priority-low" class="priority-pill low">
+						<input type="radio" id="priority-low" th:field="*{priority}" value="LOW" class="priority-radio">
+						低
+					</label>
+					<div th:if="${#fields.hasErrors('priority')}" th:errors="*{priority}" class="error-message"></div>
+				</div>
+
 
 				<div class="form-group">
 					<label>内容：</label>
